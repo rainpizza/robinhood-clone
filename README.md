@@ -10,7 +10,7 @@ In the project directory, you can run:
 
 Build your dependencies for the app.
 
-Your app is ready to be deployed!
+With this, your app will ready to be deployed with the next command!
 
 ### `yarn start` or `npm start`
 
