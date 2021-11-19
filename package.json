@@ -15,7 +15,7 @@
     "cors": "^2.8.5",
     "create-react-app": "^4.0.3",
     "express": "^4.17.1",
-    "firebase": "^9.4.1",
+    "firebase": "9.5.0",
     "git": "^0.1.5",
     "react": "^17.0.1",
     "react-chartjs-2": "^2.11.1",
