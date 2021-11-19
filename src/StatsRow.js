@@ -5,7 +5,7 @@ import { db } from './firebase';
 
 function StatsRow(props) {
 
-    const percentage = ((props.price - props.openPrice)/props.openPrice) * 100;
+    const percentage = ((props.price - props.previousClose)/props.previousClose) * 100;
 
     const buyStock = () => {
         db.collection('myStocks')

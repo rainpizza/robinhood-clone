@@ -82,6 +82,7 @@ function Stats() {
                         openPrice={stock.info.o}
                         volume={stock.data.shares}
                         price={stock.info.c}
+                        previousClose={stock.info.pc}
                     />
                     ))}
                 </div>
@@ -97,6 +98,7 @@ function Stats() {
                             name={stock.name}
                             openPrice={stock.o}
                             price={stock.c}
+                            previousClose={stock.pc}
                         />
                         ))}
                     </div>

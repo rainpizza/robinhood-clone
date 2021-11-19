@@ -39,9 +39,9 @@ body {
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app__header {
+  /* background-color: #282c34; */
+  min-height: 5vh;
   display: flex;
   flex-direction: column;
   align-items: center;
