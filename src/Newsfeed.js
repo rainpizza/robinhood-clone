@@ -16,15 +16,6 @@ function Newsfeed() {
                         <LineGraph />
                         <TimeLine />
                     </div>
-                    <div className="newsfeed__buying_section">
-                        <h2> Buying Power</h2>
-                        <h2> $4.11 </h2>
-                    </div>
-                    <div className="newsfeed__market__section">
-                        <div className="newsfeed__market__box">
-                            <p> Markets Closed</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

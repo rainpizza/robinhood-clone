@@ -2,6 +2,8 @@ import React from 'react';
 import StockSVG from './stock.svg';
 import './StatsRow.css';
 import { db } from './firebase';
+import Delete from '@material-ui/icons/Delete';
+import { Icon } from '@material-ui/core';
 
 function StatsRow(props) {
 
@@ -49,6 +51,7 @@ function StatsRow(props) {
             <div className="row__numbers">
                 <p className="row__price">{props.price}</p>
                 <p className="row__percentage"> {Number(percentage).toFixed(2)}%</p>
+                <Delete></Delete>
             </div>
         </div>
     )
