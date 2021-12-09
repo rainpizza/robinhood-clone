@@ -1,41 +1,49 @@
 import React from 'react';
 import StockSVG from './stock.svg';
 import './StatsRow.css';
-import { db } from './firebase';
+import { auth, db } from './firebase';
 import Delete from '@material-ui/icons/Delete';
 import { Icon } from '@material-ui/core';
 
 function StatsRow(props) {
 
-    const percentage = ((props.price - props.previousClose)/props.previousClose) * 100;
+    const percentage = ((props.price - props.previousClose) / props.previousClose) * 100;
 
-    const buyStock = () => {
-        db.collection('myStocks')
+    const buyStock = async () => {
+        const res = await auth.currentUser;
+        const user = res.uid;
+        db.collection('users')
+            .doc(user)
+            .collection("myStocks")
             .where("ticker", "==", props.name)
             .get()
             .then((querySnapshot) => {
-                if(!querySnapshot.empty){
+                if (!querySnapshot.empty) {
                     // Update the record
                     querySnapshot.forEach((doc) => {
                         // doc.data() is never undefined for query doc snapshots
-                        db.collection('myStocks')
-                        .doc(doc.id)
-                        .update({
-                            shares: doc.data().shares +=1
-                        })
+                        db.collection('users')
+                        .doc(user)
+                        .collection("myStocks")
+                            .doc(doc.id)
+                            .update({
+                                shares: doc.data().shares += 1
+                            })
                     });
                 }
-                else{
+                else {
                     // Add a new record
                     console.log("Not available");
-                    db.collection('myStocks')
+                    db.collection('users')
+                    .doc(user)
+                    .collection("myStocks")
                         .add({
                             ticker: props.name,
                             shares: 1
                         })
                 }
-                
-        })
+
+            })
     }
     return (
         <div className="row" onClick={buyStock}>

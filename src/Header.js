@@ -1,32 +1,45 @@
-import React from 'react'
-import Logo from './robinhood.svg';
+import React, { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useHistory } from "react-router";
+import { auth, db, logout } from "./firebase";
 import './Header.css';
 
 function Header() {
+
+    const [user, loading, error] = useAuthState(auth);
+    const [name, setName] = useState("");
+    const history = useHistory();
+
+    const fetchUserName = async () => {
+        try {
+            const query = await db
+                .collection("users")
+                .where("uid", "==", user?.uid)
+                .get();
+            const data = await query.docs[0].data();
+            setName(data.name);
+        } catch (err) {
+            console.error(err);
+            alert("An error occured while fetching user data");
+        }
+    };
+
+    useEffect(() => {
+        if (loading) return;
+        if (!user) return history.replace("/");
+
+        fetchUserName();
+    }, [user, loading]);
     return (
         <div className="header__wrapper">
-            {/* logo */}
-                <div className="header__logo">
-                    <img src={Logo} width={25} />
-                </div>
-    
-            {/* search */}
-                <div className="header__search">
-                    <div className="header__searchContainer">
-                        <input placeholder="Search" type="text" />
-                    </div>
-                </div>
-            {/* menutiems */}
-            <div className="header__menuItems">
-                <a href="#">Free Stocks</a>
-                <a href="#">Portfolio</a>
-                <a href="#">Cash</a>
-                <a href="#">Messages</a>
-                <a href="#">Account</a>
+            <div class="wrapper site-header__wrapper">
+                <a class="item">Firestock</a>
+                <button className="dashboard__btn" onClick={logout}>
+                    Logout
+                </button>
             </div>
-
         </div>
-    )
+    );
 }
 
 export default Header
