@@ -13,6 +13,8 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const auth = app.auth();
 const db = app.firestore();
+const analytics = firebase.analytics();
+const storage = firebase.storage();
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
@@ -20,13 +22,14 @@ const signInWithGoogle = async () => {
   try {
     const res = await auth.signInWithPopup(googleProvider);
     const user = res.user;
+    analytics.logEvent('login');
     const query = await db
       .collection("users")
       .doc(user.uid)
       .get();
-    console.log(query);
-    if (query.docs.length === 0) {
-      await db.collection("users").create(user.uid);
+    if (!query.exists) {
+      analytics.logEvent('sign_up');     
+      await db.collection("users").doc(user.uid).collection('myStocks');
     }
   } catch (err) {
     console.error(err);
@@ -36,6 +39,7 @@ const signInWithGoogle = async () => {
 
 const signInWithEmailAndPassword = async (email, password) => {
   try {
+    analytics.logEvent('login');
     await auth.signInWithEmailAndPassword(email, password);
   } catch (err) {
     console.error(err);
@@ -47,12 +51,15 @@ const registerWithEmailAndPassword = async (name, email, password) => {
   try {
     const res = await auth.createUserWithEmailAndPassword(email, password);
     const user = res.user;
-    await db.collection("users").add({
-      uid: user.uid,
-      name,
-      authProvider: "local",
-      email,
-    });
+    analytics.logEvent('login');
+    const query = await db
+      .collection("users")
+      .doc(user.uid)
+      .get();
+    if (!query.exists) {
+      analytics.logEvent('sign_up');  
+      await db.collection("users").doc(user.uid).collection('myStocks');
+    }
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -81,4 +88,5 @@ export {
   registerWithEmailAndPassword,
   sendPasswordResetEmail,
   logout,
+  storage
 };

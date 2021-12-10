@@ -2,6 +2,7 @@ import React from 'react';
 import './Newsfeed.css';
 import LineGraph from './LineGraph';
 import TimeLine from './TimeLine';
+import LineGraphPlotly from './LineGraphPlotly';
 
 function Newsfeed() {
     return (
@@ -13,7 +14,8 @@ function Newsfeed() {
                         <p>$44.63 (+0.04%) Today</p>
                     </div>
                     <div className="newsfeed__chart">
-                        <LineGraph />
+                        <LineGraphPlotly />
+                        {/* <LineGraph /> */}
                         <TimeLine />
                     </div>
                 </div>

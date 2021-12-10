@@ -14,9 +14,10 @@ function Header() {
         try {
             const query = await db
                 .collection("users")
-                .where("uid", "==", user?.uid)
+                .doc(user?.uid)
                 .get();
             const data = await query.docs[0].data();
+            console.log(query.docs[0].data(), "here");
             setName(data.name);
         } catch (err) {
             console.error(err);
@@ -28,7 +29,7 @@ function Header() {
         if (loading) return;
         if (!user) return history.replace("/");
 
-        fetchUserName();
+        // fetchUserName();
     }, [user, loading]);
     return (
         <div className="header__wrapper">
